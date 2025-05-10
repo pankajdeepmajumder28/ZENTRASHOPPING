@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shop Home</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 24px;
+    }
+
+    .cart-count {
+      background: red;
+      border-radius: 50%;
+      padding: 5px 10px;
+      font-size: 14px;
+      margin-left: 5px;
+    }
+
+    .container {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      text-align: center;
+    }
+
+    .product-card img {
+      max-width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .product-card h3 {
+      margin: 10px 0 5px;
+      font-size: 18px;
+    }
+
+    .product-card p {
+      font-size: 16px;
+      color: #555;
+    }
+
+    .product-card button {
+      margin-top: 10px;
+      padding: 10px 16px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .product-card button:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Zentra Shopping</h1>
+    <div>
+      Cart 🛒 <span class="cart-count" id="cartCount">0</span>
+    </div>
+  </header>
+
+  <main class="container" id="productContainer">
+    <!-- Products will be inserted here -->
+  </main>
+
+  <script>
+    const products = [
+      {
+        name: "Wireless Headphones",
+        price: 49.99,
+        image: "data:image/jpeg;base64,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"
+      },
+      {
+        name: "Smart Watch",
+        price: 89.99,
+        image: "https://suprememobiles.in/cdn/shop/files/1_a601150c-9cc3-4aa6-97fd-4a40a18fc873.png?v=1701846864"
+      },
+      {
+        name: "Running Shoes",
+        price: 59.99,
+        image: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSQRKcHF0UqjFpWhEpqeoemmZTAfYfsXyxnbvpSsvZcb1dUbLt_wby32gdFmGIzt5zB7g9GUIQsVMzsokMxpxsO2lVfwWdm1fn1ik3OC1Y5MNlxEaOTDw2eMw"
+      },
+      {
+        name: "Bluetooth Speaker",
+        price: 29.99,
+        image: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQj2F8HowaMSztuQ0ES1lBAjhUQCVz0z0k2NqDn4I5hWdaf_qB49ZqYrmJop7l9uatL6QDx8R7UBqKhKx_kEF2YiIquVtfWGy2aT4qRnFMJPz7jW13d6GiJWGA"
+      }
+    ];
+
+    let cartCount = 0;
+
+    function addToCart() {
+      cartCount++;
+      document.getElementById("cartCount").textContent = cartCount;
+    }
+
+    function loadProducts() {
+      const container = document.getElementById("productContainer");
+
+      products.forEach(product => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+
+        card.innerHTML = `
+          <img src="${product.image}" alt="${product.name}" />
+          <h3>${product.name}</h3>
+          <p>$${product.price.toFixed(2)}</p>
+          <button onclick="addToCart()">Add to Cart</button>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    loadProducts();
+  </script>
+
+</body>
+</html>
